@@ -58,40 +58,28 @@ export const lists: Lists = {
       // we want a user to have many posts, and we are saying that the user
       // should be referencable by the 'author' field of posts.
       // Make sure you read the docs to understand how they work: https://keystonejs.com/docs/guides/relationships#understanding-relationships
-      posts: relationship({ ref: 'Post.author', many: true }),
+      words: relationship({ ref: 'Word.author', many: true }),
     },
     // Here we can configure the Admin UI. We want to show a user's name and posts in the Admin UI
     ui: {
       listView: {
-        initialColumns: ['name', 'posts'],
+        initialColumns: ['name', 'words'],
       },
     },
   }),
-  // Our second list is the Posts list. We've got a few more fields here
-  // so we have all the info we need for displaying posts.
-  Word: list({
-    // Here are the fields that `User` will have. We want an email and password so they can log in
-    // a name so we can refer to them, and a way to connect users to posts.
-    fields: {
-      word: text({ validation: { isRequired: true } }),
-      translation: text({ validation: { isRequired: true } }),
-    },
-    // Here we can configure the Admin UI. We want to show a user's name and posts in the Admin UI
-    ui: {
-      listView: {
-        initialColumns: ['name', 'posts'],
-      },
-    },
-  }),
+  
 
-  // Our final list is the tag list. This field is just a name and a relationship to posts
-  Tag: list({
-    ui: {
-      isHidden: true,
-    },
+  Word: list({
     fields: {
-      name: text(),
-      posts: relationship({ ref: 'Post.tags', many: true }),
+      name: text({ validation: { isRequired: true } }),
+      translation: text({ validation: { isRequired: true } }),
+      author: relationship({ ref: 'User.word', many: true }),
+    },
+    
+    ui: {
+      listView: {
+        initialColumns: ['name'],
+      },
     },
   }),
 };
